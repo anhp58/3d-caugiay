@@ -21,12 +21,25 @@ import os
 EXTRA_DEG_25M = 0.00013
 
 def getMask(shp_file):
-    """ Extract polygon from shapfile """
+    """Extract polygon from shapfile 
+        Args:    
+            shp_file (string): path to the shapefile
+        Returns:
+            polygons (list of object): list of polygon in the shapefile
+    """
     shapefile = gpd.read_file(shp_file)
     polygons = shapefile.geometry.values
     return polygons
 
 def getExtentFromPolygon (polygon, extra_deg):
+    """1. Get extent of the polygon 
+        2. Extent the polygon by an extra degree
+        Args:
+            polygon (object):
+            extra_deg (double): extra degree for surounding object
+        Returns: 
+            poly (object): extent of the extent polygon with an extra degree
+    """
     bounds = polygon.bounds
     
     bot_lat = bounds[1] - extra_deg
@@ -42,7 +55,12 @@ def getExtentFromPolygon (polygon, extra_deg):
     return poly
 
 def fixInvalidPolygon (invalid_pol):
-    """ Fix invalid polygon - self-intersecting polygon """
+    """ Fix invalid polygon - self-intersecting polygon 
+        Args:
+            invalid_pol (object): invalid polygon
+        Returns:
+            fine_pol (object): fixed polygon
+    """
     
     lr = invalid_pol.exterior
     ur = unary_union(lr)
@@ -52,7 +70,15 @@ def fixInvalidPolygon (invalid_pol):
     
     
 def getIndexMask(polygon, image):
-    """ Get index with mask polygon """
+    """ Get index with mask polygon 
+        Args:
+            polygon (object): polygon that used to clip the image
+            image (string): path to image
+        Returns:
+            in_img (arr): array of pixels within the polygon
+            out_img (arr): array of the pixels outside the polygon
+            
+    """
     image = rasterio.open(image)
         
     ext_polygon = getExtentFromPolygon(polygon, EXTRA_DEG_25M)
