@@ -64,7 +64,7 @@ def aqiMapToColor (aq_index):
         return 8
 
 id_scene = "combined_reproject2"
-base_dir = r"I:\My Drive\3D-Caugiay"
+base_dir = r"G:\My Drive\3D-Caugiay"
 img_path = os.path.join(base_dir, r"onkk\21072020-20h.tif")
 shp_path = os.path.join(base_dir, r"roi\new\corrected_shp_reproject\{}.shp".format(id_scene))  
 
@@ -89,4 +89,4 @@ for index in range (0, len(polygons)):
 #            fmt='%s'
 #     )
 # =============================================================================
-writeShp (shp_path, color_list)
+#writeShp (shp_path, color_list)

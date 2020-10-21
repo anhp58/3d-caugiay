@@ -11,20 +11,20 @@ import pandas as pd
 import os
 
 EXT_DIST = [0, 25, 50, 100]
+APP_DIR = "C:/allmapsoft/gsmd"
+DOWNLOADER = 'downloader.exe'
+COMBINER = 'combiner.exe'
+APP_NAME_DOWNLOADER = 'Google Satellite Maps Downloader 8.329'
+APP_NAME_COMBINER = 'Map Combiner'
+TASK_FILE_NAME = "my_new_task.gmid"
+
 
 for ext_dist in [EXT_DIST[1]]:
 
     print ("ext_dist {}m".format(ext_dist))
     POLYGON_CSV = "../data/csv_polygon/lat_long_{}m.csv".format(ext_dist)
     DATA_DIR = r"D:\height-estimation\raw_data\cg_{}m".format(ext_dist)
-    
-    APP_DIR = "C:/allmapsoft/gsmd"
-    DOWNLOADER = 'downloader.exe'
-    COMBINER = 'combiner.exe'
-    APP_NAME_DOWNLOADER = 'Google Satellite Maps Downloader 8.08'
-    APP_NAME_COMBINER = 'Map Combiner'
-    TASK_FILE_NAME = "my_new_task.gmid"
-    
+           
     df_polygon = pd.read_csv(POLYGON_CSV)
     
     bot_lat = df_polygon['bot_lat'].values

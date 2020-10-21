@@ -71,7 +71,6 @@ def getIndexMask(polygon, image):
 
     in_image = np.transpose(in_image)
     in_image = cv.cvtColor(in_image, cv.COLOR_BGR2RGB)
-    
     out_image = np.transpose(out_image)
     out_image = cv.cvtColor(out_image, cv.COLOR_BGR2RGB)
     
@@ -81,10 +80,10 @@ id_img_list = ["5.3"]
 
 for id_img in id_img_list:
     print (id_img)
-    image = r"I:\My Drive\3D-Caugiay\image\tif\Caugiay{}.tif".format(id_img)
-    shapefile = r"I:\My Drive\3D-Caugiay\roi\new\corrected_shp\{}.shp".format(id_img)
-    base_folder_in = r"I:\My Drive\3D-Caugiay\small_image_in\{}".format(id_img)
-    base_folder_out = r"I:\My Drive\3D-Caugiay\small_image_out\{}".format(id_img)
+    image = r"G:\My Drive\3D-Caugiay\image\tif\Caugiay{}.tif".format(id_img)
+    shapefile = r"G:\My Drive\3D-Caugiay\roi\new\corrected_shp\{}.shp".format(id_img)
+    base_folder_in = r"G:\My Drive\3D-Caugiay\small_image_in\{}".format(id_img)
+    base_folder_out = r"G:\My Drive\3D-Caugiay\small_image_out\{}".format(id_img)
 
     polygons = getMask(shapefile)
     for index in range (0, len(polygons)):
