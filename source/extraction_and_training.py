@@ -18,6 +18,13 @@ import pickle
 from const import *
 
 def sort_filename (img_list, base_img_dir):
+    """Sort the file names
+        Args:
+            img_list (list): list of images
+            base_img_dir (string): the image dir
+        Returns:
+            Sorted list of file names
+    """
     
     img_id_list = [int(imgfile.split("\\")[-1][:-4]) for imgfile in img_list]
     sorted_filename = [ os.path.join(base_img_dir, "{}.png".format(str(img_id))) for img_id in sorted(img_id_list) ]
@@ -25,6 +32,9 @@ def sort_filename (img_list, base_img_dir):
     return sorted_filename
 
 def pca_sift (X):
+    """
+        Not used
+    """
     
     from sklearn.decomposition import PCA
     pca = PCA()
@@ -33,7 +43,9 @@ def pca_sift (X):
     return pca.transform(X)
 
 def pca_sift_test (X):
-    
+    """
+        Not used
+    """
     from sklearn.decomposition import PCA
     
     pca = PCA()
@@ -42,6 +54,13 @@ def pca_sift_test (X):
     return pca
 
 def keypoint_extraction (img_list, descriptor):
+    """Extract keypoint from image with provided descriptor
+        Args:
+            img_list (list): list of images
+            descriptor (object): object descriptor
+        Returns:
+            dico (ndarray): feature ndarray
+    """
     
     dico = []
     for imgfile in img_list:
@@ -62,6 +81,12 @@ def keypoint_extraction (img_list, descriptor):
     return dico
 
 def clustering (dico):
+    """To cluster the input feature using MiniBatchKMeans
+        Args:
+            dico (array): the feature dataset
+        Returns:
+            kmeans (object): the kmeans model
+    """
     
     k = K
     batch_size = 200
@@ -74,6 +99,17 @@ def clustering (dico):
 def histogram (img1_list, kmeans1, 
                img2_list, kmeans2, 
                descriptor1, descriptor2):
+    """Calculate the keypoint and cluster each record to "word"
+        Args:
+            img1_list (list): list of images which are masked by the building polygon - "within dataset"
+            kmeans1 (object): kmean model for the dataset within the polygon
+            img2_list (list): list of images which are masked by the outside of the building polygon
+            kmeans2 (object): kmean model for the dataset placed outside the polygon - "without dataset"
+            descriptor1 (object): the descriptor for the "within" dataset
+            descriptor2 (object): the descroptor for the "without" dataset
+        Returns:
+            histo_list (ndarray): bag of words feature
+    """
     
     histo_list = []
     for imgfile1, imgfile2 in zip(img1_list, img2_list):
@@ -121,6 +157,13 @@ def histogram (img1_list, kmeans1,
     return histo_list
 
 def regression_model (histo_list, y):
+    """Train the regression model based on bag of word dataset
+        Args:
+            histo_list (array): feature array
+            y (array): label array
+        Returns:
+            regr (object): regression model
+    """
     
     X = np.array(histo_list)    
     regr = RandomForestRegressor(max_depth=700, random_state=50)
@@ -132,6 +175,23 @@ def prediction (img1_list, base_img1_dir,
                 img2_list, base_img2_dir,
                 kmeans1, kmeans2,
                 descriptor1, descriptor2, regr):
+    """Inference the data based on the regression model
+        Args:
+            img1_list
+            base_img1_dir
+            img2_list
+            base_img2_dir
+            kmeans1
+            base_img2_dir
+            kmeans1
+            kmeans2
+            descriptor1
+            descriptor2
+            regr
+        Returns:
+            y_reg
+            histo_list
+    """
     
     sorted_filename1 = sort_filename (img1_list, base_img1_dir)
     sorted_filename2 = sort_filename (img2_list, base_img2_dir)
